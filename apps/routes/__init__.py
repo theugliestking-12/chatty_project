@@ -77,7 +77,7 @@ def create_app(test_config=None):
     # ===============================
     # 3. Enable CORS
     # ===============================
-    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "+"}})
+    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}})
 
     # ===============================
     # 4. Register Blueprints
