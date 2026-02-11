@@ -46,7 +46,14 @@ def create_app(test_config=None):
     # ===============================
     if test_config is None:
         # Load configuration from environment variables (provided by load_dotenv in app.py)
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+        # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+        database_url = os.environ.get('DATABASE_URL') or os.environ.get('SQLALCHEMY_DATABASE_URI')
+
+        if not database_url:
+            raise RuntimeError("❌ No database URL configured!")
+        
+        app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-dev-secret-key')
         app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'jwt-secret-default')
